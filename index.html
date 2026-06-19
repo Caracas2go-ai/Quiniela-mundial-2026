@@ -472,5 +472,8 @@
   if(window.__DATA__){boot(window.__DATA__);}
   else{fetch('data.json?v='+Date.now()).then(r=>r.json()).then(boot).catch(e=>{$('#hint').textContent='Error cargando datos. Recarga la página.';});}
   </script>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
 </body>
-</html>
+  </html>

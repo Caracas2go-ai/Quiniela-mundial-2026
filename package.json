@@ -1,0 +1,13 @@
+{
+  "name": "quiniela-mundial-2026",
+  "version": "1.0.0",
+  "description": "Quiniela Mundial 2026 - Caracas2go",
+  "private": true,
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  }
+}
