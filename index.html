@@ -257,13 +257,13 @@
     .ft-venmo{background:#008CFF;color:#fff;}
     .ft-venmo b{font-weight:800;letter-spacing:.2px;}
     .ft-ig:active,.ft-venmo:active{transform:scale(.97);}
-    .venmo-fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:90;display:inline-flex;align-items:center;gap:9px;background:#008CFF;color:#fff;padding:10px 16px 10px 11px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700;box-shadow:0 8px 22px rgba(0,140,255,.42);animation:vfBob 3s ease-in-out infinite;}
-    .vf-badge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:#fff;color:#008CFF;border-radius:8px;font-weight:900;font-style:italic;font-size:16px;line-height:1;}
-    .vf-label b{font-weight:800;}
+    .venmo-fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:90;display:inline-flex;align-items:center;gap:6px;background:#008CFF;color:#fff;padding:11px 18px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700;box-shadow:0 8px 22px rgba(0,140,255,.42);animation:vfBob 3s ease-in-out infinite;}
+    .vf-pre{font-size:12px;font-weight:600;opacity:.95;}
+    .vf-wm{font-family:'Plus Jakarta Sans','Noto Sans',sans-serif;font-size:16.5px;font-weight:800;letter-spacing:-.4px;}
     .venmo-fab:active{transform:scale(.96);}
     @keyframes vfBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
     @media (prefers-reduced-motion:reduce){.venmo-fab{animation:none;}}
-    @media (max-width:380px){.vf-label{display:none;}.venmo-fab{padding:11px;gap:0;}}
+    @media (max-width:360px){.vf-pre{display:none;}}
     .gr-head,.gr-row{display:grid;grid-template-columns:18px minmax(0,1fr) 20px 16px 16px 16px 22px 22px 28px 28px;gap:3px;align-items:center;padding:7px 3px;font-size:11.5px;text-align:center;}
     .gr-head{font-size:9px;text-transform:uppercase;letter-spacing:.2px;color:var(--mut);border-bottom:1px solid var(--line);}
     .gr-head .gr-tm{text-align:left;}
@@ -328,7 +328,7 @@
 
   <div class="wrap"><div id="app"></div></div>
 
-  <a class="venmo-fab" href="https://venmo.com/u/saulbretto" target="_blank" rel="noopener" aria-label="Donar con Venmo"><span class="vf-badge">V</span><span class="vf-label">Donar con <b>Venmo</b></span></a>
+  <a class="venmo-fab" href="https://venmo.com/u/saulbretto" target="_blank" rel="noopener" aria-label="Donar con Venmo"><span class="vf-pre">Donar con</span><span class="vf-wm">Venmo</span></a>
 
   <div class="ft">
     <div id="ftlogo"><img class="ft-emblem" id="ftEmblem" alt=""></div>
@@ -583,20 +583,28 @@
   function h2set(){var aE=$('#h2a'),bE=$('#h2b');if(!aE||!bE)return;var a=aE.value,b=bE.value,o=$('#h2out');if(!o)return;if(!DATA.players[a]||!DATA.players[b]||a===b){o.innerHTML='<div class="note">Elige dos jugadores distintos.</div>';return;}o.innerHTML=h2render(a,b);}
   function h2render(a,b){
     var sa=DATA.standings.filter(function(e){return e.name===a;})[0]||{},sb=DATA.standings.filter(function(e){return e.name===b;})[0]||{};
-    var pa=DATA.players[a],pb=DATA.players[b];
-    var pl=DATA.order.filter(function(id){return DATA.matches[id]&&DATA.matches[id].res;});
-    var wa=0,wb=0,tie=0;
-    function pkTxt(pk){return pk&&pk.s?esc(pk.s):(pk&&pk.o?(pk.o==='1'?'L':(pk.o==='2'?'V':'E')):'\u2014');}
-    var rows=pl.map(function(id){var m=DATA.matches[id],pka=pickFor(pa,id),pkb=pickFor(pb,id),va=mPts(pa,id),vb=mPts(pb,id);va=va==null?0:va;vb=vb==null?0:vb;if(va>vb)wa++;else if(vb>va)wb++;else tie++;
-      var ca='<div class="h2-side'+(va>vb?' win':'')+'"><span class="h2-mk">'+pkTxt(pka)+'</span><span class="h2-pt">+'+va+'</span></div>';
-      var cb='<div class="h2-side'+(vb>va?' win':'')+'"><span class="h2-mk">'+pkTxt(pkb)+'</span><span class="h2-pt">+'+vb+'</span></div>';
-      var mc='<div class="h2-mt"><span class="h2-tt">'+flagS(m.hc)+esc(short(m.home))+'<i>v</i>'+esc(short(m.away))+flagS(m.ac)+'</span>'+(m.res?'<b class="h2-res">'+esc(m.res)+'</b>':'')+'</div>';
-      return '<div class="h2-row">'+ca+mc+cb+'</div>';
-    }).join('');
+    var pf=DATA._pf,rm=DATA._rm,ln=DATA._ln,fnA=ln?ln(a):null,fnB=ln?ln(b):null;
+    var wa=0,wb=0,tie=0,rows='';
+    function pkTxt(s,o){return s?esc(s):(o==='1'?'L':(o==='2'?'V':(o==='X'?'E':'\u2014')));}
+    function rowH(hc,ac,home,away,sc,sA,oA,vA,sB,oB,vB){
+      return '<div class="h2-row"><div class="h2-side'+(vA>vB?' win':'')+'"><span class="h2-mk">'+pkTxt(sA,oA)+'</span><span class="h2-pt">+'+vA+'</span></div><div class="h2-mt"><span class="h2-tt">'+flagS(hc)+esc(short(home))+'<i>v</i>'+esc(short(away))+flagS(ac)+'</span>'+(sc?'<b class="h2-res">'+esc(sc)+'</b>':'')+'</div><div class="h2-side'+(vB>vA?' win':'')+'"><span class="h2-mk">'+pkTxt(sB,oB)+'</span><span class="h2-pt">+'+vB+'</span></div></div>';
+    }
+    if(pf&&rm&&fnA&&fnB&&pf.picks[fnA]&&pf.picks[fnB]){
+      var arrA=pf.picks[fnA],arrB=pf.picks[fnB];
+      if(!DATA._pk){DATA._pk={};DATA.order.forEach(function(id){var mm=DATA.matches[id];if(mm)DATA._pk[mm.home+'|'+mm.away]=mm.kick;});}
+      var _ky=function(m,i){var p2=m.home+'|'+m.away,d=(DATA._kk&&DATA._kk[p2])||DATA._pk[p2];return d?new Date(d).getTime():(8e15+i);};
+      var plist=[];pf.matches.forEach(function(m,i){var sc=rm[m.home+'|'+m.away];if(!sc)return;plist.push({m:m,i:i,sc:sc});});
+      plist.sort(function(x,y){return _ky(x.m,x.i)-_ky(y.m,y.i);});
+      plist.forEach(function(x){var m=x.m,sc=x.sc,stg=L_stage(m.code),pA=String(arrA[x.i]||'').split('|'),pB=String(arrB[x.i]||'').split('|');var vA=L_p(arrA[x.i],sc,stg),vB=L_p(arrB[x.i],sc,stg);if(vA>vB)wa++;else if(vB>vA)wb++;else tie++;rows+=rowH(m.hc,m.ac,m.home,m.away,sc,pA[1]||'',pA[0]||'',vA,pB[1]||'',pB[0]||'',vB);});
+    }else{
+      var pa=DATA.players[a],pb=DATA.players[b];
+      var pl=DATA.order.filter(function(id){return DATA.matches[id]&&DATA.matches[id].res;});
+      pl.sort(function(A,B){return new Date(DATA.matches[A].kick||0)-new Date(DATA.matches[B].kick||0);});
+      pl.forEach(function(id){var m=DATA.matches[id],pka=pickFor(pa,id),pkb=pickFor(pb,id),vA=mPts(pa,id),vB=mPts(pb,id);vA=vA==null?0:vA;vB=vB==null?0:vB;if(vA>vB)wa++;else if(vB>vA)wb++;else tie++;rows+=rowH(m.hc,m.ac,m.home,m.away,m.res,(pka&&pka.s)||'',(pka&&pka.o)||'',vA,(pkb&&pkb.s)||'',(pkb&&pkb.o)||'',vB);});
+    }
     var head='<div class="h2-top"><div class="h2-card"><div class="h2-nm">'+esc(a)+'</div><div class="h2-pos">'+(sa.pos||'\u2014')+'\u00b0</div><div class="h2-pts">'+(sa.pts||0)+'</div></div><div class="h2-mid"><div class="h2-w">'+wa+'\u2013'+wb+'</div><div class="h2-vs">duelos<br>'+tie+' iguales</div></div><div class="h2-card"><div class="h2-nm">'+esc(b)+'</div><div class="h2-pos">'+(sb.pos||'\u2014')+'\u00b0</div><div class="h2-pts">'+(sb.pts||0)+'</div></div></div>';
-    return head+'<div class="note">Cada quien con el marcador que puso y los puntos que sac\u00f3 \u00b7 solo partidos jugados.</div><div class="h2-list"><div class="h2-lh"><span>'+esc(short(a))+'</span><span>Partido \u00b7 real</span><span>'+esc(short(b))+'</span></div>'+rows+'</div>';
+    return head+'<div class="note">Cada quien con su marcador y los puntos que sac\u00f3 \u00b7 solo partidos jugados.</div><div class="h2-list"><div class="h2-lh"><span>'+esc(short(a))+'</span><span>Partido \u00b7 real</span><span>'+esc(short(b))+'</span></div>'+rows+'</div>';
   }
-
   function viewMundial(){
     var pf=DATA._pf,rm=DATA._rm||{},list=[];
     if(pf&&pf.matches){pf.matches.forEach(function(m){if(!/^[A-L][1-6]$/.test(String(m.code||'')))return;list.push({g:String(m.code)[0],home:m.home,away:m.away,hc:m.hc,ac:m.ac,res:rm[m.home+'|'+m.away]||m.result||''});});}
@@ -633,18 +641,27 @@
   var L_norm=function(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');};
   var L_toks=function(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim().split(' ').filter(Boolean);};
   async function goLive(){
-    var pf,espn;
-    try{var rr=await Promise.all([fetch('picks_frozen.json?v='+Date.now()).then(function(r){return r.json();}),fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260720').then(function(r){return r.json();})]);pf=rr[0];espn=rr[1];}catch(e){return;}
-    if(!pf||!pf.matches||!espn)return;
-    var rb=L_results(L_espn(espn),pf);
-    if(!Object.keys(rb.rm).length)return;
+    var pf=null,espn=null;
+    try{pf=await fetch('picks_frozen.json?v='+Date.now()).then(function(r){return r.json();});}catch(e){return;}
+    if(!pf||!pf.matches)return;
+    try{espn=await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260720').then(function(r){return r.json();});}catch(e){espn=null;}
+    var rm={},rk={},live={};
+    pf.matches.forEach(function(m){if(m.result)rm[m.home+'|'+m.away]=m.result;});
+    if(espn){var rb=L_results(L_espn(espn),pf);
+      Object.keys(rb.rm).forEach(function(k){rm[k]=rb.rm[k];});
+      rk=rb.rk||{};live=rb.live||{};
+      Object.keys(rb.lv).forEach(function(mid){var _L=rb.lv[mid];if(DATA.matches[mid]&&(_L.completed||_L.inplay)){DATA.matches[mid].res=_L.score;DATA.matches[mid].live=!!_L.inplay;DATA.matches[mid].clk=_L.clk||"";}});
+    }
+    DATA._pf=pf;DATA._rm=rm;DATA._kk=rk;DATA._live=live;
+    if(!Object.keys(rm).length)return;
     var tot={};pf.players.forEach(function(n){tot[n]=0;});
-    pf.matches.forEach(function(m,i){var sc=rb.rm[m.home+'|'+m.away];if(!sc)return;var st=L_stage(m.code);pf.players.forEach(function(n){var a=pf.picks[n];if(a)tot[n]+=L_p(a[i],sc,st);});});
+    pf.matches.forEach(function(m,i){var sc=rm[m.home+'|'+m.away];if(!sc)return;var st=L_stage(m.code);pf.players.forEach(function(n){var a=pf.picks[n];if(a)tot[n]+=L_p(a[i],sc,st);});});
     var fz=Object.keys(tot).map(function(n){return {name:n,pts:tot[n],nk:L_norm(n),tk:L_toks(n)};});
     var fzExact={},fzName={};fz.forEach(function(f){fzExact[f.nk]=f.pts;if(fzName[f.nk]==null)fzName[f.nk]=f.name;});
     var ALIAS={dannyhuertas:'danielhuertas',hermanitosaponte:'hemanitosaponte',juandiegohillinger:'juandhillinger',luisfernandoespejo:'luisespejo',michaelhagos:'mikehagos',pabloduna:'pablodunia',santiagohuertas:'santihuertas',camilamedina:'camilaolses'};
     function liveResolve(nm){var nk=L_norm(nm);if(fzName[nk]!=null)return fzName[nk];if(ALIAS[nk]!=null&&fzName[ALIAS[nk]]!=null)return fzName[ALIAS[nk]];var dt=L_toks(nm),best=null,bs=Infinity;for(var i=0;i<fz.length;i++){var ft=fz[i].tk,dF=dt.every(function(x){return ft.indexOf(x)>=0;}),fD=ft.every(function(x){return dt.indexOf(x)>=0;}),sc=dF?(ft.length-dt.length):(fD?(100+dt.length-ft.length):Infinity);if(sc<bs){bs=sc;best=fz[i];}}return (best&&bs<Infinity)?best.name:null;}
     function livePts(name){var nk=L_norm(name);if(fzExact[nk]!=null)return fzExact[nk];if(ALIAS[nk]!=null&&fzExact[ALIAS[nk]]!=null)return fzExact[ALIAS[nk]];var dt=L_toks(name),best=null,bs=Infinity;for(var i=0;i<fz.length;i++){var ft=fz[i].tk,dF=dt.every(function(x){return ft.indexOf(x)>=0;}),fD=ft.every(function(x){return dt.indexOf(x)>=0;}),sc=dF?(ft.length-dt.length):(fD?(100+dt.length-ft.length):Infinity);if(sc<bs){bs=sc;best=fz[i];}}return (best&&bs<Infinity)?best.pts:null;}
+    DATA._ln=liveResolve;
     if(!DATA._baseline){DATA._baseline={};DATA.standings.forEach(function(e){DATA._baseline[L_norm(e.name)]=e.pts;});}
     var prevN=DATA._baseline;
     var names=Object.keys(DATA.players);
@@ -656,11 +673,9 @@
     names.forEach(function(n){var e=byN[L_norm(n)];if(e){DATA.players[n].p=e.pos;DATA.players[n].t=e.pts;DATA.players[n].delta=e.delta;}});
     var cc={};st.forEach(function(e){cc[e.pts]=(cc[e.pts]||0)+1;});
     DATA.dist=Object.keys(cc).map(Number).sort(function(a,b){return b-a;}).slice(0,8).map(function(p){return [p,cc[p]];});
-    Object.keys(rb.lv).forEach(function(mid){var _L=rb.lv[mid];if(DATA.matches[mid]&&(_L.completed||_L.inplay)){DATA.matches[mid].res=_L.score;DATA.matches[mid].live=!!_L.inplay;DATA.matches[mid].clk=_L.clk||"";}});
-    DATA.live=true;DATA.liveCount=Object.keys(rb.rm).length;DATA._pf=pf;DATA._rm=rb.rm;DATA._ln=liveResolve;DATA._kk=rb.rk;DATA._live=rb.live;
+    DATA.live=!!espn;DATA.liveCount=Object.keys(live).length;
     if(VIEW==='quiniela'&&CUR)render(CUR);else if(VIEW!=='quiniela')setView(VIEW);
   }
-
   function boot(d){
     DATA=d; OI={}; d.order.forEach((mi,i)=>OI[mi]=i);
     if(d.css){$('#rcss').textContent=d.css; const ec=$('#extcss'); if(ec) ec.remove();}
