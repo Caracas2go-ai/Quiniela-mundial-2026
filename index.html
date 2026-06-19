@@ -147,6 +147,15 @@
     .pl-row:hover { background:transparent; }
     .rg-intro { font-size:14px; line-height:1.55; }
     .livebadge { display:inline-block; background:var(--red); color:#fff; font-size:9px; font-weight:800; letter-spacing:0.5px; padding:2px 7px; border-radius:20px; vertical-align:middle; margin-left:6px; }
+    .mp-btn { width:100%; margin-top:11px; background:var(--paper2); border:1px solid var(--line); border-radius:12px; padding:10px; font-family:'Noto Sans',sans-serif; font-weight:700; font-size:12px; cursor:pointer; color:var(--ink); }
+    .mp-btn:hover { background:var(--line); }
+    .mp-panel { margin-top:10px; max-height:320px; overflow-y:auto; border:1px solid var(--line); border-radius:12px; padding:12px; background:var(--paper2); }
+    .mp-panel[hidden] { display:none; }
+    .mp-tot { font-size:10px; font-weight:800; letter-spacing:0.4px; text-transform:uppercase; color:var(--mut); margin-bottom:9px; }
+    .mp-group { margin-bottom:11px; }
+    .mp-gh { font-family:'Anton',sans-serif; font-size:13px; letter-spacing:0.3px; display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+    .mp-n { margin-left:auto; background:var(--ink); color:#fff; font-family:'Noto Sans',sans-serif; font-size:10px; font-weight:800; padding:2px 8px; border-radius:20px; }
+    .mp-names { font-size:11px; color:var(--mut); line-height:1.55; }
   </style>
 </head>
 <body>
@@ -204,6 +213,21 @@
   function rankRows(list,name,pts){return list.map(e=>{const me=e.name===name;const d=e.pts-pts;let b,pc;if(me){b='<span class="fr-diff bg-you">★ Tú</span>';pc='pt-me';}else if(d>0){b=`<span class="fr-diff bg-up">▲ +${d}</span>`;pc='pt-up';}else if(d===0){b='<span class="fr-diff bg-dn">= 0</span>';pc='pt-me';}else{b=`<span class="fr-diff bg-dn">▼ ${d}</span>`;pc='pt-dn';}return `<div class="fr-row${me?' me':''}" data-n="${esc(e.name)}" onclick="selName(this)"><span class="fr-pos">${e.pos}°</span><span class="fr-name">${esc(e.name)}</span>${b}<span class="fr-pts ${pc}">${e.pts}</span></div>`;}).join('');}
   function selName(el){const n=el.getAttribute('data-n');if(!n||!DATA.players[n])return;const inp=$('#search');if(inp)inp.value=n;render(n);}
 
+  function showPicks(mid,btn){
+    var panel=btn.nextElementSibling;
+    if(panel.hidden===false){panel.hidden=true;btn.textContent='👥 Qué puso cada uno';return;}
+    if(!panel.getAttribute('data-built')){
+      var m=DATA.matches[mid],groups={};
+      Object.keys(DATA.players).forEach(function(n){var pk=pickFor(DATA.players[n],mid);if(!pk||!pk.o)return;var key=pk.o+'|'+(pk.s||'');(groups[key]=groups[key]||{o:pk.o,s:pk.s,names:[]}).names.push(n);});
+      var arr=Object.keys(groups).map(function(k){return groups[k];}).sort(function(a,b){return b.names.length-a.names.length;});
+      var tot=arr.reduce(function(s,g){return s+g.names.length;},0);
+      var html=arr.map(function(g){var lbl=g.o==='1'?('Gana '+m.home):(g.o==='2'?('Gana '+m.away):'Empate');g.names.sort(function(a,b){return a.localeCompare(b,'es');});return '<div class="mp-group"><div class="mp-gh">'+esc(lbl)+(g.s?(' · '+esc(g.s)):'')+'<span class="mp-n">'+g.names.length+'</span></div><div class="mp-names">'+g.names.map(esc).join(' · ')+'</div></div>';}).join('');
+      panel.innerHTML='<div class="mp-tot">'+tot+' pronósticos · ordenados por más votado</div>'+html;
+      panel.setAttribute('data-built','1');
+    }
+    panel.hidden=false;btn.textContent='✕ Ocultar';
+  }
+
   function matchCard(id,pick,dlabel){
     const m=DATA.matches[id],t=m.total||0,oc=m.oc||{};
     const hp=t?Math.round((oc['1']||0)/t*100):0,dp=t?Math.round((oc['X']||0)/t*100):0,ap=t?Math.round((oc['2']||0)/t*100):0;
@@ -226,7 +250,7 @@
         <div class="cell"><span class="tag2">Tu pick</span><span class="pickv">${esc(tuLbl)}</span><span class="sub2">${tuSub?('Marcador '+esc(tuSub)):'—'}</span></div>
         <div class="cell"><span class="tag2">El grupo</span><span class="pickv">${esc(m.consLbl)}</span><span class="sub2">${m.gs?('Marcador '+esc(m.gs)):'—'}</span></div>
       </div>
-      <div class="m-agree${ag}"><span>${agT}</span></div></div>`;
+      <div class="m-agree${ag}"><span>${agT}</span></div><button class="mp-btn" onclick="showPicks('${id}',this)">👥 Qué puso cada uno</button><div class="mp-panel" hidden></div></div>`;
   }
 
   function comboCard(c){
@@ -373,7 +397,7 @@
     pf.matches.forEach(function(m,i){var sc=rb.rm[m.home+'|'+m.away];if(!sc)return;var st=L_stage(m.code);pf.players.forEach(function(n){var a=pf.picks[n];if(a)tot[n]+=L_p(a[i],sc,st);});});
     var fz=Object.keys(tot).map(function(n){return {pts:tot[n],nk:L_norm(n),tk:L_toks(n)};});
     var fzExact={};fz.forEach(function(f){fzExact[f.nk]=f.pts;});
-    var ALIAS={dannyhuertas:'danielhuertas',hermanitosaponte:'hemanitosaponte',juandiegohillinger:'juandhillinger',luisfernandoespejo:'luisespejo',michaelhagos:'mikehagos',pabloduna:'pablodunia',santiagohuertas:'santihuertas'};
+    var ALIAS={dannyhuertas:'danielhuertas',hermanitosaponte:'hemanitosaponte',juandiegohillinger:'juandhillinger',luisfernandoespejo:'luisespejo',michaelhagos:'mikehagos',pabloduna:'pablodunia',santiagohuertas:'santihuertas',camilamedina:'camilaolses'};
     function livePts(name){var nk=L_norm(name);if(fzExact[nk]!=null)return fzExact[nk];if(ALIAS[nk]!=null&&fzExact[ALIAS[nk]]!=null)return fzExact[ALIAS[nk]];var dt=L_toks(name),best=null,bs=Infinity;for(var i=0;i<fz.length;i++){var ft=fz[i].tk,dF=dt.every(function(x){return ft.indexOf(x)>=0;}),fD=ft.every(function(x){return dt.indexOf(x)>=0;}),sc=dF?(ft.length-dt.length):(fD?(100+dt.length-ft.length):Infinity);if(sc<bs){bs=sc;best=fz[i];}}return (best&&bs<Infinity)?best.pts:null;}
     if(!DATA._baseline){DATA._baseline={};DATA.standings.forEach(function(e){DATA._baseline[L_norm(e.name)]=e.pts;});}
     var prevN=DATA._baseline;
