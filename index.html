@@ -156,6 +156,24 @@
     .mp-gh { font-family:'Anton',sans-serif; font-size:13px; letter-spacing:0.3px; display:flex; align-items:center; gap:8px; margin-bottom:4px; }
     .mp-n { margin-left:auto; background:var(--ink); color:#fff; font-family:'Noto Sans',sans-serif; font-size:10px; font-weight:800; padding:2px 8px; border-radius:20px; }
     .mp-names { font-size:11px; color:var(--mut); line-height:1.55; }
+    .rkp { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px; }
+    .rkp-c { border-radius:16px; padding:14px 8px; text-align:center; cursor:pointer; color:#fff; }
+    .rkp-c:hover { transform:translateY(-2px); }
+    .rkp-1 { background:linear-gradient(160deg,#D4AC0D,#9C7A00); } .rkp-2 { background:linear-gradient(160deg,#9AA0A6,#6E747A); } .rkp-3 { background:linear-gradient(160deg,#C97B30,#8E531B); }
+    .rkp-m { font-size:24px; line-height:1; } .rkp-pos { font-family:'Anton',sans-serif; font-size:13px; opacity:0.9; margin-top:2px; }
+    .rkp-name { font-size:12px; font-weight:800; margin:5px 0 3px; line-height:1.15; } .rkp-pts { font-family:'Anton',sans-serif; font-size:22px; }
+    .rk-search { width:100%; font-size:14px; padding:11px 14px; border:1.5px solid var(--line); border-radius:12px; margin-bottom:10px; background:var(--paper2); outline:none; font-family:'Noto Sans',sans-serif; }
+    .rk-search:focus { border-color:var(--ink); }
+    .rk-list { border:1.5px solid var(--line); border-radius:14px; max-height:620px; overflow-y:auto; }
+    .rk-row { display:flex; align-items:center; gap:12px; padding:11px 14px; border-bottom:1px solid var(--line); cursor:pointer; }
+    .rk-row:last-child { border-bottom:none; }
+    .rk-row:hover { background:var(--paper2); }
+    .rk-row.me { background:var(--yel); }
+    .rk-pos { font-family:'Anton',sans-serif; font-size:15px; color:var(--mut); width:44px; text-align:right; flex-shrink:0; }
+    .rk-row.me .rk-pos { color:var(--ink); }
+    .rk-name { flex:1; font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .rk-row.me .rk-name { font-weight:800; }
+    .rk-pts { font-family:'Anton',sans-serif; font-size:17px; flex-shrink:0; }
   </style>
 </head>
 <body>
@@ -164,6 +182,7 @@
 
   <nav class="tabs" id="tabs">
     <button class="tab active" data-v="quiniela">🏆 Mi Quiniela</button>
+    <button class="tab" data-v="ranking">🏅 Ranking</button>
     <button class="tab" data-v="pronosticos">📊 Pronósticos</button>
     <button class="tab" data-v="equipos">🌍 Equipos</button>
     <button class="tab" data-v="partidos">📅 Partidos<span class="soon">Pronto</span></button>
@@ -296,7 +315,7 @@
 
   function setActive(v){if(document.querySelectorAll){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.getAttribute('data-v')===v));}}
   function soon(title,text){return `<div class="grid"><section class="card span2"><div class="st"><span class="cbar" style="background:var(--red)"></span>${esc(title)}</div><div class="mv-soon"><div class="mv-emoji">⚽</div><div class="mv-t">Pronto</div><div class="mv-d">${text}</div><button class="mv-btn" onclick="setView('quiniela')">← Volver a Mi Quiniela</button></div></section></div>`;}
-  function setView(v){VIEW=v;setActive(v);const pw=$('#pickwrap');if(v==='quiniela'){if(pw)pw.style.display='';if(CUR)render(CUR);else $('#app').innerHTML='';}else{if(pw)pw.style.display='none';$('#app').innerHTML=v==='pronosticos'?viewPronosticos():v==='equipos'?viewEquipos():v==='partidos'?soon('Partidos','Aquí verás todos los partidos del Mundial con su resultado y lo que pronosticó el grupo. Se activa muy pronto.'):v==='reglas'?soon('Reglas','El reglamento completo: cómo se ganan los puntos en cada fase, el cuadro de honor y todo el detalle. Se activa muy pronto.'):soon('Mundial en vivo','Goleadores, asistencias y las tablas reales de cada grupo, en vivo desde FotMob. Se activa muy pronto.');window.scrollTo({top:0,behavior:'smooth'});}}
+  function setView(v){VIEW=v;setActive(v);const pw=$('#pickwrap');if(v==='quiniela'){if(pw)pw.style.display='';if(CUR)render(CUR);else $('#app').innerHTML='';}else{if(pw)pw.style.display='none';$('#app').innerHTML=v==='ranking'?viewRanking():v==='pronosticos'?viewPronosticos():v==='equipos'?viewEquipos():v==='partidos'?soon('Partidos','Aquí verás todos los partidos del Mundial con su resultado y lo que pronosticó el grupo. Se activa muy pronto.'):v==='reglas'?soon('Reglas','El reglamento completo: cómo se ganan los puntos en cada fase, el cuadro de honor y todo el detalle. Se activa muy pronto.'):soon('Mundial en vivo','Goleadores, asistencias y las tablas reales de cada grupo, en vivo desde FotMob. Se activa muy pronto.');window.scrollTo({top:0,behavior:'smooth'});}}
 
   function viewPronosticos(){
     const N2C={};(DATA.teams||[]).forEach(t=>{N2C[t.name]=t.code;});DATA.order.forEach(id=>{const m=DATA.matches[id];if(!N2C[m.home])N2C[m.home]=m.hc;if(!N2C[m.away])N2C[m.away]=m.ac;});
@@ -372,6 +391,14 @@
       `<section class="card span2"><div class="st"><span class="cbar" style="background:var(--pur)"></span>Reglas completas (texto)</div><button class="rg-toggle" onclick="var t=document.getElementById('rg-full');t.hidden=!t.hidden;this.textContent=t.hidden?'Mostrar todo el texto ▾':'Ocultar texto ▴';">Mostrar todo el texto ▾</button><div id="rg-full" class="rg-full" hidden>${txt}</div></section>`+
     `</div>`;
   }
+
+  function viewRanking(){
+    var st=DATA.standings||[],med=['🥇','🥈','🥉'];
+    var podium='<div class="rkp">'+st.slice(0,3).map(function(e,i){return '<div class="rkp-c rkp-'+(i+1)+'" data-n="'+esc(e.name)+'" onclick="selName(this)"><div class="rkp-m">'+med[i]+'</div><div class="rkp-pos">'+e.pos+'°</div><div class="rkp-name">'+esc(e.name)+'</div><div class="rkp-pts">'+e.pts+'</div></div>';}).join('')+'</div>';
+    var rows=st.map(function(e){var me=CUR&&e.name===CUR;return '<div class="rk-row'+(me?' me':'')+'" data-n="'+esc(e.name)+'" onclick="selName(this)"><span class="rk-pos">'+e.pos+'°</span><span class="rk-name">'+esc(e.name)+'</span><span class="rk-pts">'+e.pts+'</span></div>';}).join('');
+    return '<div class="grid"><section class="card span2"><div class="st"><span class="cbar" style="background:var(--yel)"></span>Ranking general'+(DATA.live?' <span class="livebadge">🔴 EN VIVO</span>':'')+'<span class="smeta">'+st.length+' PARTICIPANTES</span></div>'+podium+'<input class="rk-search" id="rkSearch" placeholder="🔎 Busca tu nombre…" autocomplete="off" oninput="rkFilter(this.value)"><div class="rk-list" id="rkList">'+rows+'</div><div class="note">Toca a cualquiera para ver su quiniela. Si ya te buscaste, sales resaltado en amarillo.</div></section></div>';
+  }
+  function rkFilter(q){q=L_norm(q);var rows=document.querySelectorAll('#rkList .rk-row');for(var i=0;i<rows.length;i++){var n=L_norm(rows[i].getAttribute('data-n'));rows[i].style.display=(!q||n.indexOf(q)>=0)?'':'none';}}
 
   function viewMundial(){
     return `<div class="grid"><section class="card span2"><div class="st"><span class="cbar" style="background:var(--red)"></span>Mundial en vivo</div><div class="mv-soon"><div class="mv-emoji">⚽</div><div class="mv-t">Pronto</div><div class="mv-d">Goleadores, asistencias y tablas reales de cada grupo — se activan cuando publiquemos el sitio online. Mientras tanto explora <strong>Pronósticos del grupo</strong> y <strong>Partidos</strong>.</div><button class="mv-btn" onclick="setView('pronosticos')">Ver Pronósticos del grupo</button></div></section></div>`;
