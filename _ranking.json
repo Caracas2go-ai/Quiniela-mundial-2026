@@ -1,0 +1,1287 @@
+{
+ "all": [
+  {
+   "name": "Carlos Hillinger",
+   "pts": 33,
+   "pos": 1
+  },
+  {
+   "name": "Guillermo Corsino",
+   "pts": 30,
+   "pos": 2
+  },
+  {
+   "name": "Macoly",
+   "pts": 29,
+   "pos": 3
+  },
+  {
+   "name": "Sergi Mateu",
+   "pts": 29,
+   "pos": 3
+  },
+  {
+   "name": "Javier Ledezma",
+   "pts": 28,
+   "pos": 5
+  },
+  {
+   "name": "Jonathan Gunczler",
+   "pts": 28,
+   "pos": 5
+  },
+  {
+   "name": "Juan Izquierdo 5",
+   "pts": 28,
+   "pos": 5
+  },
+  {
+   "name": "Maurice Benzaquen",
+   "pts": 28,
+   "pos": 5
+  },
+  {
+   "name": "Annunzio Stanchieri 2",
+   "pts": 27,
+   "pos": 9
+  },
+  {
+   "name": "Daniel Donelli 2",
+   "pts": 27,
+   "pos": 9
+  },
+  {
+   "name": "Liam Eitan",
+   "pts": 27,
+   "pos": 9
+  },
+  {
+   "name": "Liam Garza",
+   "pts": 27,
+   "pos": 9
+  },
+  {
+   "name": "Ricardo Picon",
+   "pts": 26,
+   "pos": 13
+  },
+  {
+   "name": "Roger Velutini",
+   "pts": 26,
+   "pos": 13
+  },
+  {
+   "name": "Alberto James",
+   "pts": 25,
+   "pos": 15
+  },
+  {
+   "name": "Gabriel Bromberg",
+   "pts": 25,
+   "pos": 15
+  },
+  {
+   "name": "Juan Izquierdo",
+   "pts": 25,
+   "pos": 15
+  },
+  {
+   "name": "Luca Alessandria",
+   "pts": 25,
+   "pos": 15
+  },
+  {
+   "name": "Alejandro Medina",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "Andres Betancourt",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "Carlos Sosa",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "Jonathan Azerraf",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "MariaPaula Diaz",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "Rafael Serfaty",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "Rafael Velasquez",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "Slay Azar",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "Yosira Troccoli",
+   "pts": 24,
+   "pos": 19
+  },
+  {
+   "name": "Andres Centeno",
+   "pts": 23,
+   "pos": 28
+  },
+  {
+   "name": "Cristina Contreras",
+   "pts": 23,
+   "pos": 28
+  },
+  {
+   "name": "Gabriel DiBiase",
+   "pts": 23,
+   "pos": 28
+  },
+  {
+   "name": "Gabriel Edery",
+   "pts": 23,
+   "pos": 28
+  },
+  {
+   "name": "Jeremy Gallero",
+   "pts": 23,
+   "pos": 28
+  },
+  {
+   "name": "Juan Michelena",
+   "pts": 23,
+   "pos": 28
+  },
+  {
+   "name": "Andreas Colmenares 3",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Annunzio Figuera",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Daniel Arevalo",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "David Gomez",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Diego Sanz",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Dylan Gale",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Guillermo Guerra",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Isaac Hayon",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Jose Hernandez",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Juan Betancourt",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Juan Izquierdo 2",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Juan Izquierdo 3",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "JuanIgnacio Sosa",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Maurice Benatar",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Rogelio Caceres",
+   "pts": 22,
+   "pos": 34
+  },
+  {
+   "name": "Alonso Gil",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Andres Gutierrez",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Antonio Riccio 2",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Benjamin Ledezma",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Bernardo Dorfman",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "David Galli",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Fernando Valery",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Giuseppe DiBiase",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Guido Acuna 2",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Isaac Rosales",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "JoseLuis Castillo 2",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Kike Mayorca",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Leo Arevalo",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Michele DiCarlo",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Nubar",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Nubar 2",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Sam Selig",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Sandra Aliaga",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Saul Bretto",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Abraham Moshkovitz",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Alberto Franco 2",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Alberto Toledano",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Alfredo Mejia",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Ari Toledano",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Eduardo Parilli",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Federico Loynaz",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Gabriel Castanon",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Isaac Rosales 2",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Jacobo Rieber",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Joaquin Brillembourg",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Joaquin Cortes",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Jose Hedderich",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "JoseAngel Casal",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Luis Mejia 2",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Nicolas Guevara",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Oscar Ramos",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Rafael Sanabria",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Rodrigo Arismendi",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Rodrigo Fernandez",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Alberto Murcian",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Antonio Ramirez",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Diego Vallenilla",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Gianfranco Malanga",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Jose Negron",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "JoseIgnacio Arocha",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Juan Fragoso",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "JuanDiego Dib 2",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Lucas Outumuro",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Luis Baumeister",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Max Roizental",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Tyler Kraft",
+   "pts": 19,
+   "pos": 88
+  },
+  {
+   "name": "Alejandro Castillo",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Andreas Colmenares 2",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Andres Benzazon",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Andres Mattatia 2",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Arturo Hernandez",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Bernardo Otero",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Carlos Arocha",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Diego Valery",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Elias Bruzual",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Francisco Arizaleta",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Guido Acuna",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "LosDocentes Loy",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Luis Mejia",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Luis Rubano",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Michel Gallero",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Nicolas Kaswalder",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Sergio Orta",
+   "pts": 18,
+   "pos": 100
+  },
+  {
+   "name": "Alejandro Olses",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Alessio Vicari",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Alessio Vicari 2",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Alvaro Sucre",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Andreas Colmenares",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Daniel Arevalo 2",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Fermin Laborde",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Gabriel Edery 2",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Gustavo Ascaso",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Ignacio Dib",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Jacinto Caceres",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Juan Caraballo",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Juan Izquierdo 4",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Kelvin Quintero",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Luisma Rodrigues",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Maurice Benzaquen 2",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Sebastian Jaua",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Simon Velez",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Steven Pabon",
+   "pts": 17,
+   "pos": 117
+  },
+  {
+   "name": "Abraham Belilty",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Abraham Ludewig",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Alejandro Alfonzo",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Ales Arriola",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Alfredo Mejia 2",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Andres Mattatia",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Andres Perez",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Antonio Arzola",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Antonio Riccio 3",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Carlos Puma",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Daniel Donelli",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Enrique Centeno",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Howard John",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Nicolas Urbicain",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Oscar Mesa",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Sergio Sannia",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Tyler Proesch",
+   "pts": 16,
+   "pos": 136
+  },
+  {
+   "name": "Adolfo Doval",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Alejo Caceres",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Alexander Lam",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Andres Cubeddu",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Carlos Aristeguieta",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Cris Galjuf",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Daniel Belfort",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Daniel Yanes",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Diego Luis",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Eitan Seemann",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Gal Benzaquen",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Gustavo Aponte",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Jack Dorfman",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Juan Miralles",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "JuanDiego Dib",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "JuanDiego Ugueto",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Leopoldo Arevalo Power 2",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Mauricio Mussa",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Moises Bentolila 2",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Pedro Gonzalez",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Robb Medeiros 2",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Victor Silva",
+   "pts": 15,
+   "pos": 153
+  },
+  {
+   "name": "Alejandro Rivas",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Amelio Salazar",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Antonio Valery SR",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Benjamin Marcos",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Javier Ablan",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Javier Ablan 2",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Luis Marquez",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Maxi Ledezma",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Nicolas Sirotich",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Pablo Sosa",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Robb Medeiros",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Samuel DeVita",
+   "pts": 14,
+   "pos": 175
+  },
+  {
+   "name": "Alonso Rodriguez",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Antonio Riccio",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Armando SanchezBueno",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Carlos Marquez",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Carlos Marquez SR",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Carola Olses",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Eithan Frieder",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Jack Levy",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Jonathan Azerraf 2",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Luis Corsi",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Rodrigo Gomez",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Rommel Medina",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Ruben Hirsch",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Santiago Martignani",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Sergio Orta 2",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Stefano Gambirazio",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Tiffany Belilty",
+   "pts": 13,
+   "pos": 187
+  },
+  {
+   "name": "Dimas Garnier",
+   "pts": 12,
+   "pos": 204
+  },
+  {
+   "name": "Elias Moreno",
+   "pts": 12,
+   "pos": 204
+  },
+  {
+   "name": "Giancarlo DiBiase",
+   "pts": 12,
+   "pos": 204
+  },
+  {
+   "name": "Ilan Davidescu",
+   "pts": 12,
+   "pos": 204
+  },
+  {
+   "name": "JoseLuis Castillo",
+   "pts": 12,
+   "pos": 204
+  },
+  {
+   "name": "Pedro Monsalve",
+   "pts": 12,
+   "pos": 204
+  },
+  {
+   "name": "Alejandro Aponte",
+   "pts": 11,
+   "pos": 210
+  },
+  {
+   "name": "Brian Torrado",
+   "pts": 11,
+   "pos": 210
+  },
+  {
+   "name": "Gonzalo Martinez",
+   "pts": 11,
+   "pos": 210
+  },
+  {
+   "name": "Jose Angel Medina",
+   "pts": 11,
+   "pos": 210
+  },
+  {
+   "name": "Maga Pettus",
+   "pts": 11,
+   "pos": 210
+  },
+  {
+   "name": "Sebastian Ramirez",
+   "pts": 11,
+   "pos": 210
+  },
+  {
+   "name": "Alessandro DeSantis",
+   "pts": 10,
+   "pos": 216
+  },
+  {
+   "name": "Antonio Valery 2",
+   "pts": 10,
+   "pos": 216
+  },
+  {
+   "name": "Moises Bentolila",
+   "pts": 10,
+   "pos": 216
+  },
+  {
+   "name": "Jacobo Rieber 2",
+   "pts": 9,
+   "pos": 219
+  },
+  {
+   "name": "William Boulton",
+   "pts": 6,
+   "pos": 220
+  },
+  {
+   "name": "Alberto Franco",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Camila Medina",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Danny Huertas",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Diego Delgado",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Enrique Arevalo",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Esteve Blasco",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Hermanitos Aponte",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Jaime Arizaleta",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Juan Araque",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Juan Araque 2",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Juan Castanon",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Juan Diego Hillinger",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Juan Londono",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Leopoldo Arevalo Power 1",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "LuisFernando Espejo",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Michael Hagos",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Pablo Duna",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Rafael Galindez",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Rafael Sanabria 2",
+   "pts": 0,
+   "pos": 221
+  },
+  {
+   "name": "Santiago Huertas",
+   "pts": 0,
+   "pos": 221
+  }
+ ],
+ "total": 240,
+ "leader_name": "Carlos Hillinger",
+ "leader_pts": 33,
+ "dist": [
+  [
+   33,
+   1
+  ],
+  [
+   30,
+   1
+  ],
+  [
+   29,
+   2
+  ],
+  [
+   28,
+   4
+  ],
+  [
+   27,
+   4
+  ],
+  [
+   26,
+   2
+  ],
+  [
+   25,
+   4
+  ],
+  [
+   24,
+   9
+  ]
+ ],
+ "saul_pos": 49,
+ "saul_pts": 21,
+ "top3": [
+  {
+   "name": "Carlos Hillinger",
+   "pts": 33,
+   "pos": 1
+  },
+  {
+   "name": "Guillermo Corsino",
+   "pts": 30,
+   "pos": 2
+  },
+  {
+   "name": "Macoly",
+   "pts": 29,
+   "pos": 3
+  }
+ ],
+ "neighbors": [
+  {
+   "name": "Sam Selig",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Sandra Aliaga",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Saul Bretto",
+   "pts": 21,
+   "pos": 49
+  },
+  {
+   "name": "Abraham Moshkovitz",
+   "pts": 20,
+   "pos": 68
+  },
+  {
+   "name": "Alberto Franco 2",
+   "pts": 20,
+   "pos": 68
+  }
+ ]
+}
