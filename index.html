@@ -250,6 +250,20 @@
     .mpl-ok{color:#2FA45E;font-weight:800;}
     .mpl-x{color:#C0392B;font-weight:800;}
     .sb-reslive{color:#FFC53D;}
+    .ft-social{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+    .ft-ig,.ft-venmo{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;padding:7px 13px;border-radius:999px;text-decoration:none;line-height:1;}
+    .ft-ig{background:#fff;color:#C13584;border:1px solid var(--line);}
+    .ft-ig .igsvg{display:block;}
+    .ft-venmo{background:#008CFF;color:#fff;}
+    .ft-venmo b{font-weight:800;letter-spacing:.2px;}
+    .ft-ig:active,.ft-venmo:active{transform:scale(.97);}
+    .venmo-fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:90;display:inline-flex;align-items:center;gap:9px;background:#008CFF;color:#fff;padding:10px 16px 10px 11px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700;box-shadow:0 8px 22px rgba(0,140,255,.42);animation:vfBob 3s ease-in-out infinite;}
+    .vf-badge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:#fff;color:#008CFF;border-radius:8px;font-weight:900;font-style:italic;font-size:16px;line-height:1;}
+    .vf-label b{font-weight:800;}
+    .venmo-fab:active{transform:scale(.96);}
+    @keyframes vfBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+    @media (prefers-reduced-motion:reduce){.venmo-fab{animation:none;}}
+    @media (max-width:380px){.vf-label{display:none;}.venmo-fab{padding:11px;gap:0;}}
     .gr-head,.gr-row{display:grid;grid-template-columns:18px minmax(0,1fr) 20px 16px 16px 16px 22px 22px 28px 28px;gap:3px;align-items:center;padding:7px 3px;font-size:11.5px;text-align:center;}
     .gr-head{font-size:9px;text-transform:uppercase;letter-spacing:.2px;color:var(--mut);border-bottom:1px solid var(--line);}
     .gr-head .gr-tm{text-align:left;}
@@ -313,6 +327,8 @@
   </div>
 
   <div class="wrap"><div id="app"></div></div>
+
+  <a class="venmo-fab" href="https://venmo.com/u/saulbretto" target="_blank" rel="noopener" aria-label="Donar con Venmo"><span class="vf-badge">V</span><span class="vf-label">Donar con <b>Venmo</b></span></a>
 
   <div class="ft">
     <div id="ftlogo"><img class="ft-emblem" id="ftEmblem" alt=""></div>
@@ -650,7 +666,7 @@
     if(d.css){$('#rcss').textContent=d.css; const ec=$('#extcss'); if(ec) ec.remove();}
     if(d.logo){LOGO='data:image/png;base64,'+d.logo;}
     const gen=new Date(d.gen);
-    $('#ftgen').textContent='Generado por Saúl Bretto';var _fe=$('#ftEmblem');if(_fe)_fe.src=LOGO;
+    var _ig='<svg viewBox="0 0 24 24" width="15" height="15" class="igsvg" aria-hidden="true"><defs><linearGradient id="igft" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".4" stop-color="#FA7E1E"/><stop offset=".65" stop-color="#D62976"/><stop offset="1" stop-color="#962FBF"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#igft)"/><circle cx="12" cy="12" r="5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.4" fill="#fff"/></svg>';$('#ftgen').innerHTML='Generado por Sa\u00fal Bretto<div class="ft-social"><a class="ft-ig" href="https://instagram.com/saulbretto" target="_blank" rel="noopener">'+_ig+'<span>S\u00edgueme</span></a></div>';var _fe=$('#ftEmblem');if(_fe)_fe.src=LOGO;
     const names=Object.keys(d.players);
     $('#hint').textContent=`${names.length} participantes · escribe tu nombre`;
     const inp=$('#search');
