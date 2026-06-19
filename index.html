@@ -58,12 +58,12 @@
     .podium-wrap { margin:0 0 14px; }
     .podium-t { font-size:11px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; color:var(--mut); margin-bottom:8px; }
     .podium { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
-    .pod { background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:12px 6px; text-align:center; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; }
-    .pod:hover { border-color:var(--ink); }
+    .pod { border:0; color:#fff; border-radius:16px; padding:12px 6px; text-align:center; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; }
+    .pod:hover { transform:translateY(-2px); }
     .pod-pos { font-family:'Anton',sans-serif; font-size:15px; }
-    .pod-1 .pod-pos { color:#C99700; } .pod-2 .pod-pos { color:#9AA0A6; } .pod-3 .pod-pos { color:#C97B30; }
+    .pod-1 { background:linear-gradient(160deg,#D4AC0D,#9C7A00); } .pod-2 { background:linear-gradient(160deg,#9AA0A6,#6E747A); } .pod-3 { background:linear-gradient(160deg,#C97B30,#8E531B); }
     .pod-name { font-size:12px; font-weight:700; line-height:1.15; }
-    .pod-pts { font-family:'Anton',sans-serif; font-size:18px; color:var(--ink); }
+    .pod-pts { font-family:'Anton',sans-serif; font-size:18px; color:#fff; }
     .tabs { position:sticky; top:0; z-index:30; display:flex; gap:8px; overflow-x:auto; background:var(--ink); padding:11px 14px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
     .tabs::-webkit-scrollbar { display:none; }
     .tab { flex:0 0 auto; display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.10); color:#EDEDE8; border:none; font-family:'Anton',sans-serif; font-size:13px; letter-spacing:0.4px; text-transform:uppercase; padding:9px 15px; border-radius:22px; cursor:pointer; white-space:nowrap; }
