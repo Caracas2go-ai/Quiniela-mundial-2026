@@ -178,15 +178,16 @@
     .sc-sum>div{background:var(--paper2);border-radius:12px;padding:9px 4px;text-align:center;}
     .sc-sum b{font-family:'Anton',sans-serif;font-size:20px;display:block;line-height:1;}
     .sc-sum span{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);}
-    .sc-head,.sc-row{display:grid;grid-template-columns:1fr auto auto 58px;gap:8px;align-items:center;padding:8px 6px;}
+    .sc-head,.sc-row{display:grid;grid-template-columns:1fr 56px 54px 60px;gap:12px;align-items:center;padding:9px 8px;}
     .sc-head{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);border-bottom:1px solid var(--line);}
+    .sc-head>span:not(:first-child){text-align:center;}
     .sc-row{border-bottom:1px solid var(--line);font-size:12.5px;}
     .sc-row:last-child{border-bottom:none;}
     .sc-tm{display:flex;align-items:center;gap:5px;font-weight:600;white-space:nowrap;overflow:hidden;}
     .sc-tm i{font-style:normal;color:var(--mut);font-size:11px;}
-    .sc-pk{font-weight:700;white-space:nowrap;}
-    .sc-rs{font-family:'Anton',sans-serif;}
-    .sc-pt{font-family:'Anton',sans-serif;text-align:right;}
+    .sc-pk{font-weight:700;white-space:nowrap;text-align:center;}
+    .sc-rs{font-family:'Anton',sans-serif;text-align:center;}
+    .sc-pt{font-family:'Anton',sans-serif;text-align:center;white-space:nowrap;}
     .sc-exact{background:rgba(201,151,0,.08);}
     .sc-exact .sc-pt{color:#C99700;}
     .sc-sign .sc-pt{color:#2FA45E;}
@@ -420,9 +421,15 @@
       }
       if(pf&&rm&&fn&&pf.picks[fn]){
         var arr=pf.picks[fn];
-        pf.matches.forEach(function(m,i){var sc=rm[m.home+'|'+m.away];if(!sc)return;_scBody+=row(m.hc,m.ac,m.home,m.away,sc,arr[i],L_stage(m.code));});
+        if(!DATA._fmi){DATA._fmi={};pf.matches.forEach(function(mm,ii){DATA._fmi[mm.home+'|'+mm.away]=ii;});}
+        var fmi=DATA._fmi;
+        var pl2=DATA.order.filter(function(id){var m=DATA.matches[id];return m&&rm[m.home+'|'+m.away];});
+        pl2.sort(function(a,b){return new Date(DATA.matches[a].kick||0)-new Date(DATA.matches[b].kick||0);});
+        pl2.forEach(function(id){var m=DATA.matches[id],key=m.home+'|'+m.away,j=fmi[key];_scBody+=row(m.hc,m.ac,m.home,m.away,rm[key],(j!=null?arr[j]:''),L_stage(j!=null?pf.matches[j].code:id));});
       }else{
-        DATA.order.forEach(function(id){var m=DATA.matches[id];if(!m||!m.res)return;var pk=pickFor(p,id);_scBody+=row(m.hc,m.ac,m.home,m.away,m.res,(pk&&pk.o?(pk.o+'|'+(pk.s||'')):''),L_stage(id));});
+        var pl3=DATA.order.filter(function(id){var m=DATA.matches[id];return m&&m.res;});
+        pl3.sort(function(a,b){return new Date(DATA.matches[a].kick||0)-new Date(DATA.matches[b].kick||0);});
+        pl3.forEach(function(id){var m=DATA.matches[id],pk=pickFor(p,id);_scBody+=row(m.hc,m.ac,m.home,m.away,m.res,(pk&&pk.o?(pk.o+'|'+(pk.s||'')):''),L_stage(id));});
       }
     })();
     var scSec=_scN?('<section class="card span2"><div class="st"><span class="cbar" style="background:var(--grn)"></span>Tu tarjeta \u00b7 partido por partido<span class="smeta">'+_scN+' JUGADOS</span></div><div class="sc-sum sc-sum2"><div><b>'+_scp+'</b><span>puntos</span></div><div><b>'+_sgn+'/'+_scN+'</b><span>aciertos</span></div></div><div class="sc-leg">\ud83d\udfe1 marcador exacto (+4) \u00b7 \ud83d\udfe2 acertaste el ganador \u00b7 \u26ab no sumaste</div><div class="sc-head"><span>Partido</span><span>Tu pick</span><span>Real</span><span>Pts</span></div>'+_scBody+'</section>'):'';
