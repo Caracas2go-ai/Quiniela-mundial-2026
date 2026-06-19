@@ -178,7 +178,7 @@
     .sc-sum>div{background:var(--paper2);border-radius:12px;padding:9px 4px;text-align:center;}
     .sc-sum b{font-family:'Anton',sans-serif;font-size:20px;display:block;line-height:1;}
     .sc-sum span{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);}
-    .sc-head,.sc-row{display:grid;grid-template-columns:1fr auto auto 42px;gap:8px;align-items:center;padding:8px 6px;}
+    .sc-head,.sc-row{display:grid;grid-template-columns:1fr auto auto 58px;gap:8px;align-items:center;padding:8px 6px;}
     .sc-head{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--mut);border-bottom:1px solid var(--line);}
     .sc-row{border-bottom:1px solid var(--line);font-size:12.5px;}
     .sc-row:last-child{border-bottom:none;}
@@ -191,6 +191,12 @@
     .sc-exact .sc-pt{color:#C99700;}
     .sc-sign .sc-pt{color:#2FA45E;}
     .sc-miss .sc-pt{color:var(--mut);}
+    .sc-sum.sc-sum2{grid-template-columns:repeat(2,1fr);}
+    .sc-leg{font-size:11px;color:var(--mut);margin:-4px 0 10px;line-height:1.4;}
+    .sc-ok{color:#2FA45E;font-weight:800;margin-right:4px;}
+    .sc-no{color:#9AA0A6;font-weight:800;margin-right:4px;}
+    .sc-sign .sc-pk,.sc-exact .sc-pk{color:#1f7a44;}
+    .sc-miss .sc-pk{color:var(--mut);}
     .cv-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 6px;border-bottom:1px solid var(--line);font-size:12.5px;}
     .cv-row:last-child{border-bottom:none;}
     .cv-tm{display:flex;align-items:center;gap:5px;font-weight:600;}
@@ -209,14 +215,23 @@
     .h2-w{font-family:'Anton',sans-serif;font-size:20px;}
     .h2-vs{font-size:9px;text-transform:uppercase;color:var(--mut);margin-top:2px;line-height:1.2;}
     .h2-list{border-top:1px solid var(--line);}
-    .h2-lh,.h2-row{display:grid;grid-template-columns:46px 1fr 46px;gap:6px;align-items:center;padding:7px 4px;}
+    .h2-lh,.h2-row{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:6px;align-items:center;padding:8px 4px;}
     .h2-lh{font-size:10px;text-transform:uppercase;color:var(--mut);text-align:center;}
-    .h2-row{border-bottom:1px solid var(--line);font-size:11.5px;}
+    .h2-lh span:first-child{text-align:left;}
+    .h2-lh span:last-child{text-align:right;}
+    .h2-row{border-bottom:1px solid var(--line);}
     .h2-row:last-child{border-bottom:none;}
-    .h2-mt{display:flex;align-items:center;justify-content:center;gap:4px;color:var(--mut);overflow:hidden;}
-    .h2-mt i{font-style:normal;font-size:10px;}
-    .h2-pa,.h2-pb{font-family:'Anton',sans-serif;text-align:center;color:var(--mut);}
-    .h2-pa.win,.h2-pb.win{color:#2FA45E;}
+    .h2-side{display:flex;flex-direction:column;gap:1px;align-items:center;}
+    .h2-row>.h2-side:first-child{align-items:flex-start;}
+    .h2-row>.h2-side:last-child{align-items:flex-end;}
+    .h2-mk{font-size:11px;color:var(--mut);font-weight:600;}
+    .h2-pt{font-family:'Anton',sans-serif;font-size:14px;color:var(--mut);}
+    .h2-side.win .h2-pt{color:#2FA45E;}
+    .h2-side.win .h2-mk{color:var(--ink);}
+    .h2-mt{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mut);overflow:hidden;}
+    .h2-tt{display:flex;align-items:center;justify-content:center;gap:4px;font-size:11px;}
+    .h2-tt i{font-style:normal;font-size:9px;color:var(--mut);}
+    .h2-res{font-family:'Anton',sans-serif;font-size:13px;color:var(--ink);}
     .mpl-row{display:grid;grid-template-columns:38px 1fr auto auto;gap:8px;align-items:center;padding:7px 8px;border-bottom:1px solid var(--line);font-size:12.5px;}
     .mpl-row:last-child{border-bottom:none;}
     .mpl-row.me{background:var(--yel);}
@@ -390,10 +405,27 @@
     const distSec=`<section class="card span2"><div class="st"><span class="cbar" style="background:var(--red)"></span>Distribución de puntos<span class="smeta">TOP ${dist.length} NIVELES</span></div>${distRows}</section>`;
     const grupo=`<section class="card span2"><div class="st"><span class="cbar" style="background:var(--pur)"></span>Ranking Top 10</div><div class="nb">${rankRows(st.slice(0,10),name,pts)}</div></section>`;
     const full=`<section class="card span2"><div class="st"><span class="cbar" style="background:var(--blu)"></span>Ranking completo<span class="smeta">${total} PARTICIPANTES</span></div><div class="fullrk">${rankRows(st,name,pts)}</div><div class="note">Diferencia respecto a ti: <strong>▲</strong> por encima · <strong>▼</strong> por debajo. Estás resaltado en amarillo.</div></section>`;
-    var _played=DATA.order.filter(function(id){return DATA.matches[id]&&DATA.matches[id].res;});
-    var _sgn=0,_exa=0,_ple=0,_scp=0;
-    var _scBody=_played.map(function(id){var m=DATA.matches[id],pk=pickFor(p,id),pv=mPts(p,id),ht=mHit(p,id);if(pv!=null)_scp+=pv;if(ht==='exact'){_exa++;_sgn++;}else if(ht==='sign'){_sgn++;}if(pv!=null&&pv===mMax(id)&&pv>0)_ple++;var cl=ht==='exact'?'sc-exact':(ht==='sign'?'sc-sign':'sc-miss');var pkt=pk&&pk.o?(pk.o+(pk.s?(' '+pk.s):'')):'\u2014';return '<div class="sc-row '+cl+'"><span class="sc-tm">'+flagS(m.hc)+esc(short(m.home))+' <i>vs</i> '+esc(short(m.away))+flagS(m.ac)+'</span><span class="sc-pk">'+esc(pkt)+'</span><span class="sc-rs">'+esc(m.res)+'</span><span class="sc-pt">'+(pv!=null?('+'+pv):'\u00b7')+'</span></div>';}).join('');
-    var scSec=_played.length?('<section class="card span2"><div class="st"><span class="cbar" style="background:var(--grn)"></span>Tu tarjeta \u00b7 partido por partido<span class="smeta">'+_played.length+' JUGADOS</span></div><div class="sc-sum"><div><b>'+_scp+'</b><span>puntos</span></div><div><b>'+_sgn+'</b><span>signos</span></div><div><b>'+_exa+'</b><span>exactos</span></div><div><b>'+_ple+'</b><span>plenos</span></div></div><div class="sc-head"><span>Partido</span><span>Pick</span><span>Real</span><span>Pts</span></div>'+_scBody+'</section>'):'';
+    var _scN=0,_sgn=0,_exa=0,_ple=0,_scp=0,_scBody='';
+    (function(){
+      var pf=DATA._pf,rm=DATA._rm,fn=DATA._ln?DATA._ln(name):null;
+      function row(hc,ac,home,away,sc,pickStr,stg){
+        var mx=stg.s+stg.d+stg.e,pv=L_p(pickStr||'',sc,stg);
+        var rr=L_ps(sc),ro=rr?L_o(rr[0],rr[1]):null,pp=String(pickStr||'').split('|'),po=pp[0]||'',ps=pp[1]||'',pr=L_ps(ps);
+        var ht=(pr&&rr&&po===ro&&pr[0]===rr[0]&&pr[1]===rr[1])?'exact':((ro&&po===ro)?'sign':'miss');
+        _scN++;_scp+=pv;if(ht==='exact'){_exa++;_sgn++;}else if(ht==='sign'){_sgn++;}if(pv===mx&&pv>0)_ple++;
+        var cl=ht==='exact'?'sc-exact':(ht==='sign'?'sc-sign':'sc-miss');
+        var mk=ht==='miss'?'<span class="sc-no">\u2717</span>':'<span class="sc-ok">\u2713</span>';
+        var pkv=ps?esc(ps):(po==='1'?'L':(po==='2'?'V':(po==='X'?'E':'\u2014')));
+        return '<div class="sc-row '+cl+'"><span class="sc-tm">'+flagS(hc)+esc(short(home))+' <i>vs</i> '+esc(short(away))+flagS(ac)+'</span><span class="sc-pk">'+pkv+'</span><span class="sc-rs">'+esc(sc)+'</span><span class="sc-pt">'+mk+'+'+pv+'</span></div>';
+      }
+      if(pf&&rm&&fn&&pf.picks[fn]){
+        var arr=pf.picks[fn];
+        pf.matches.forEach(function(m,i){var sc=rm[m.home+'|'+m.away];if(!sc)return;_scBody+=row(m.hc,m.ac,m.home,m.away,sc,arr[i],L_stage(m.code));});
+      }else{
+        DATA.order.forEach(function(id){var m=DATA.matches[id];if(!m||!m.res)return;var pk=pickFor(p,id);_scBody+=row(m.hc,m.ac,m.home,m.away,m.res,(pk&&pk.o?(pk.o+'|'+(pk.s||'')):''),L_stage(id));});
+      }
+    })();
+    var scSec=_scN?('<section class="card span2"><div class="st"><span class="cbar" style="background:var(--grn)"></span>Tu tarjeta \u00b7 partido por partido<span class="smeta">'+_scN+' JUGADOS</span></div><div class="sc-sum sc-sum2"><div><b>'+_scp+'</b><span>puntos</span></div><div><b>'+_sgn+'/'+_scN+'</b><span>aciertos</span></div></div><div class="sc-leg">\ud83d\udfe1 marcador exacto (+4) \u00b7 \ud83d\udfe2 acertaste el ganador \u00b7 \u26ab no sumaste</div><div class="sc-head"><span>Partido</span><span>Tu pick</span><span>Real</span><span>Pts</span></div>'+_scBody+'</section>'):'';
     var _upc=md.matchIds.filter(function(id){return DATA.matches[id]&&!DATA.matches[id].res;});
     var _cvBody=_upc.map(function(id){var m=DATA.matches[id],pk=pickFor(p,id),mx=mMax(id);var tip=pk&&pk.o?('Te conviene <b>'+esc(outLabel(pk.o,m.home,m.away))+'</b>'+(pk.s?(' '+esc(pk.s)):'')+' \u00b7 hasta <b>+'+mx+'</b>'):'<span class="cv-no">Sin pick \u2014 no sumas</span>';return '<div class="cv-row"><span class="cv-tm">'+flagS(m.hc)+esc(short(m.home))+' <i>vs</i> '+esc(short(m.away))+flagS(m.ac)+'</span><span class="cv-tip">'+tip+'</span></div>';}).join('');
     var convSec=_upc.length?('<section class="card span2"><div class="st"><span class="cbar" style="background:var(--amb)"></span>Qu\u00e9 te conviene hoy<span class="smeta">'+esc(md.label).toUpperCase()+'</span></div>'+_cvBody+'</section>'):'';
@@ -504,10 +536,17 @@
     var pa=DATA.players[a],pb=DATA.players[b];
     var pl=DATA.order.filter(function(id){return DATA.matches[id]&&DATA.matches[id].res;});
     var wa=0,wb=0,tie=0;
-    var rows=pl.map(function(id){var m=DATA.matches[id],va=mPts(pa,id),vb=mPts(pb,id);va=va==null?0:va;vb=vb==null?0:vb;if(va>vb)wa++;else if(vb>va)wb++;else tie++;return '<div class="h2-row"><span class="h2-pa '+(va>vb?'win':'')+'">+'+va+'</span><span class="h2-mt">'+flagS(m.hc)+esc(short(m.home))+'<i>v</i>'+esc(short(m.away))+flagS(m.ac)+'</span><span class="h2-pb '+(vb>va?'win':'')+'">+'+vb+'</span></div>';}).join('');
+    function pkTxt(pk){return pk&&pk.s?esc(pk.s):(pk&&pk.o?(pk.o==='1'?'L':(pk.o==='2'?'V':'E')):'\u2014');}
+    var rows=pl.map(function(id){var m=DATA.matches[id],pka=pickFor(pa,id),pkb=pickFor(pb,id),va=mPts(pa,id),vb=mPts(pb,id);va=va==null?0:va;vb=vb==null?0:vb;if(va>vb)wa++;else if(vb>va)wb++;else tie++;
+      var ca='<div class="h2-side'+(va>vb?' win':'')+'"><span class="h2-mk">'+pkTxt(pka)+'</span><span class="h2-pt">+'+va+'</span></div>';
+      var cb='<div class="h2-side'+(vb>va?' win':'')+'"><span class="h2-mk">'+pkTxt(pkb)+'</span><span class="h2-pt">+'+vb+'</span></div>';
+      var mc='<div class="h2-mt"><span class="h2-tt">'+flagS(m.hc)+esc(short(m.home))+'<i>v</i>'+esc(short(m.away))+flagS(m.ac)+'</span>'+(m.res?'<b class="h2-res">'+esc(m.res)+'</b>':'')+'</div>';
+      return '<div class="h2-row">'+ca+mc+cb+'</div>';
+    }).join('');
     var head='<div class="h2-top"><div class="h2-card"><div class="h2-nm">'+esc(a)+'</div><div class="h2-pos">'+(sa.pos||'\u2014')+'\u00b0</div><div class="h2-pts">'+(sa.pts||0)+'</div></div><div class="h2-mid"><div class="h2-w">'+wa+'\u2013'+wb+'</div><div class="h2-vs">duelos<br>'+tie+' iguales</div></div><div class="h2-card"><div class="h2-nm">'+esc(b)+'</div><div class="h2-pos">'+(sb.pos||'\u2014')+'\u00b0</div><div class="h2-pts">'+(sb.pts||0)+'</div></div></div>';
-    return head+'<div class="h2-list"><div class="h2-lh"><span>'+esc(short(a))+'</span><span>Partido</span><span>'+esc(short(b))+'</span></div>'+rows+'</div>';
+    return head+'<div class="note">Cada quien con el marcador que puso y los puntos que sac\u00f3 \u00b7 solo partidos jugados.</div><div class="h2-list"><div class="h2-lh"><span>'+esc(short(a))+'</span><span>Partido \u00b7 real</span><span>'+esc(short(b))+'</span></div>'+rows+'</div>';
   }
+
   function viewMundial(){
     return `<div class="grid"><section class="card span2"><div class="st"><span class="cbar" style="background:var(--red)"></span>Mundial en vivo</div><div class="mv-soon"><div class="mv-emoji">⚽</div><div class="mv-t">Pronto</div><div class="mv-d">Goleadores, asistencias y tablas reales de cada grupo — se activan cuando publiquemos el sitio online. Mientras tanto explora <strong>Pronósticos del grupo</strong> y <strong>Partidos</strong>.</div><button class="mv-btn" onclick="setView('pronosticos')">Ver Pronósticos del grupo</button></div></section></div>`;
   }
@@ -530,9 +569,10 @@
     if(!Object.keys(rb.rm).length)return;
     var tot={};pf.players.forEach(function(n){tot[n]=0;});
     pf.matches.forEach(function(m,i){var sc=rb.rm[m.home+'|'+m.away];if(!sc)return;var st=L_stage(m.code);pf.players.forEach(function(n){var a=pf.picks[n];if(a)tot[n]+=L_p(a[i],sc,st);});});
-    var fz=Object.keys(tot).map(function(n){return {pts:tot[n],nk:L_norm(n),tk:L_toks(n)};});
-    var fzExact={};fz.forEach(function(f){fzExact[f.nk]=f.pts;});
+    var fz=Object.keys(tot).map(function(n){return {name:n,pts:tot[n],nk:L_norm(n),tk:L_toks(n)};});
+    var fzExact={},fzName={};fz.forEach(function(f){fzExact[f.nk]=f.pts;if(fzName[f.nk]==null)fzName[f.nk]=f.name;});
     var ALIAS={dannyhuertas:'danielhuertas',hermanitosaponte:'hemanitosaponte',juandiegohillinger:'juandhillinger',luisfernandoespejo:'luisespejo',michaelhagos:'mikehagos',pabloduna:'pablodunia',santiagohuertas:'santihuertas',camilamedina:'camilaolses'};
+    function liveResolve(nm){var nk=L_norm(nm);if(fzName[nk]!=null)return fzName[nk];if(ALIAS[nk]!=null&&fzName[ALIAS[nk]]!=null)return fzName[ALIAS[nk]];var dt=L_toks(nm),best=null,bs=Infinity;for(var i=0;i<fz.length;i++){var ft=fz[i].tk,dF=dt.every(function(x){return ft.indexOf(x)>=0;}),fD=ft.every(function(x){return dt.indexOf(x)>=0;}),sc=dF?(ft.length-dt.length):(fD?(100+dt.length-ft.length):Infinity);if(sc<bs){bs=sc;best=fz[i];}}return (best&&bs<Infinity)?best.name:null;}
     function livePts(name){var nk=L_norm(name);if(fzExact[nk]!=null)return fzExact[nk];if(ALIAS[nk]!=null&&fzExact[ALIAS[nk]]!=null)return fzExact[ALIAS[nk]];var dt=L_toks(name),best=null,bs=Infinity;for(var i=0;i<fz.length;i++){var ft=fz[i].tk,dF=dt.every(function(x){return ft.indexOf(x)>=0;}),fD=ft.every(function(x){return dt.indexOf(x)>=0;}),sc=dF?(ft.length-dt.length):(fD?(100+dt.length-ft.length):Infinity);if(sc<bs){bs=sc;best=fz[i];}}return (best&&bs<Infinity)?best.pts:null;}
     if(!DATA._baseline){DATA._baseline={};DATA.standings.forEach(function(e){DATA._baseline[L_norm(e.name)]=e.pts;});}
     var prevN=DATA._baseline;
@@ -546,7 +586,7 @@
     var cc={};st.forEach(function(e){cc[e.pts]=(cc[e.pts]||0)+1;});
     DATA.dist=Object.keys(cc).map(Number).sort(function(a,b){return b-a;}).slice(0,8).map(function(p){return [p,cc[p]];});
     Object.keys(rb.lv).forEach(function(mid){if(DATA.matches[mid]&&rb.lv[mid].completed)DATA.matches[mid].res=rb.lv[mid].score;});
-    DATA.live=true;DATA.liveCount=Object.keys(rb.rm).length;
+    DATA.live=true;DATA.liveCount=Object.keys(rb.rm).length;DATA._pf=pf;DATA._rm=rb.rm;DATA._ln=liveResolve;
     if(VIEW==='quiniela'&&CUR)render(CUR);else if(VIEW!=='quiniela')setView(VIEW);
   }
 
