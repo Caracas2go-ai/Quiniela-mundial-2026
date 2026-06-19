@@ -362,6 +362,7 @@
   function L_espn(j){var out=[];((j&&j.events)||[]).forEach(function(e){var c=e.competitions&&e.competitions[0];if(!c)return;var cs=c.competitors||[],h=cs.filter(function(x){return x.homeAway==='home';})[0],a=cs.filter(function(x){return x.homeAway==='away';})[0];if(!h||!a)return;var st=(e.status&&e.status.type)||{};out.push({hc:String(h.team.abbreviation||'').toUpperCase(),ac:String(a.team.abbreviation||'').toUpperCase(),hs:parseInt(h.score,10),as:parseInt(a.score,10),completed:!!st.completed});});return out;}
   function L_results(ev,pf){var bp={};pf.matches.forEach(function(m){if(!/^[A-L]\d/.test(String(m.code||'')))return;if(m.hc&&m.ac&&m.hc!=='un'&&m.ac!=='un')bp[[m.hc,m.ac].sort().join('|')]=m;});var rm={},lv={};ev.forEach(function(e){var hi=FIFA3[e.hc],ai=FIFA3[e.ac];if(!hi||!ai||isNaN(e.hs)||isNaN(e.as))return;var m=bp[[hi,ai].sort().join('|')];if(!m)return;var hs=e.hs,as=e.as;if(m.hc===ai){hs=e.as;as=e.hs;}var sc=hs+'-'+as,mid=m.group+'_J'+String(m.code).slice(1)+'_'+m.hc+'_'+m.ac;if(e.completed)rm[m.home+'|'+m.away]=sc;lv[mid]={score:sc,completed:e.completed};});return{rm:rm,lv:lv};}
   var L_norm=function(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');};
+  var L_toks=function(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim().split(' ').filter(Boolean);};
   async function goLive(){
     var pf,espn;
     try{var rr=await Promise.all([fetch('picks_frozen.json?v='+Date.now()).then(function(r){return r.json();}),fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611-20260720').then(function(r){return r.json();})]);pf=rr[0];espn=rr[1];}catch(e){return;}
@@ -370,11 +371,14 @@
     if(!Object.keys(rb.rm).length)return;
     var tot={};pf.players.forEach(function(n){tot[n]=0;});
     pf.matches.forEach(function(m,i){var sc=rb.rm[m.home+'|'+m.away];if(!sc)return;var st=L_stage(m.code);pf.players.forEach(function(n){var a=pf.picks[n];if(a)tot[n]+=L_p(a[i],sc,st);});});
-    var liveN={};Object.keys(tot).forEach(function(n){liveN[L_norm(n)]=tot[n];});
+    var fz=Object.keys(tot).map(function(n){return {pts:tot[n],nk:L_norm(n),tk:L_toks(n)};});
+    var fzExact={};fz.forEach(function(f){fzExact[f.nk]=f.pts;});
+    var ALIAS={dannyhuertas:'danielhuertas',hermanitosaponte:'hemanitosaponte',juandiegohillinger:'juandhillinger',luisfernandoespejo:'luisespejo',michaelhagos:'mikehagos',pabloduna:'pablodunia',santiagohuertas:'santihuertas'};
+    function livePts(name){var nk=L_norm(name);if(fzExact[nk]!=null)return fzExact[nk];if(ALIAS[nk]!=null&&fzExact[ALIAS[nk]]!=null)return fzExact[ALIAS[nk]];var dt=L_toks(name),best=null,bs=Infinity;for(var i=0;i<fz.length;i++){var ft=fz[i].tk,dF=dt.every(function(x){return ft.indexOf(x)>=0;}),fD=ft.every(function(x){return dt.indexOf(x)>=0;}),sc=dF?(ft.length-dt.length):(fD?(100+dt.length-ft.length):Infinity);if(sc<bs){bs=sc;best=fz[i];}}return (best&&bs<Infinity)?best.pts:null;}
     if(!DATA._baseline){DATA._baseline={};DATA.standings.forEach(function(e){DATA._baseline[L_norm(e.name)]=e.pts;});}
     var prevN=DATA._baseline;
     var names=Object.keys(DATA.players);
-    var st=names.map(function(n){var k=L_norm(n);return {name:n,pts:(liveN[k]!=null?liveN[k]:(DATA.players[n].t||0))};});
+    var st=names.map(function(n){var p=livePts(n);return {name:n,pts:(p!=null?p:(DATA.players[n].t||0))};});
     st.sort(function(a,b){return b.pts-a.pts||a.name.localeCompare(b.name,'es');});
     var last=null,lp=0;st.forEach(function(e,i){if(e.pts===last)e.pos=lp;else{e.pos=i+1;last=e.pts;lp=i+1;}e.delta=e.pts-(prevN[L_norm(e.name)]||0);});
     DATA.standings=st;DATA.total=st.length;DATA.leaderName=st[0].name;DATA.leaderPts=st[0].pts;
@@ -409,4 +413,3 @@
   </script>
 </body>
 </html>
-
