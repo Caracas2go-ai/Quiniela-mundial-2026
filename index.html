@@ -230,6 +230,12 @@
     .mpl-no{background:var(--paper2);color:var(--mut);}
     .mpl-ok{color:#2FA45E;font-weight:800;}
     .mpl-x{color:#C0392B;font-weight:800;}
+    .mpl-leg{display:flex;gap:14px;flex-wrap:wrap;font-size:10.5px;color:var(--mut);padding:0 8px 9px;}
+    .mpl-leg span{display:flex;align-items:center;gap:4px;}
+    .lg{width:9px;height:9px;border-radius:50%;display:inline-block;}
+    .lg-g{background:#2FA45E;}
+    .lg-a{background:#C9A100;}
+    .lg-r{background:#C0392B;}
     .rk-pts { font-family:'Anton',sans-serif; font-size:17px; flex-shrink:0; }
     .pick-results { margin-top:9px; border:1.5px solid var(--line); border-radius:14px; overflow:hidden; max-height:340px; overflow-y:auto; }
     .pick-results[hidden] { display:none; }
@@ -312,12 +318,13 @@
       var st=DATA.standings||[];
       var rows=st.map(function(e){
         var pk=pickFor(DATA.players[e.name],mid),me=CUR&&e.name===CUR,chip,mark='';
-        if(pk&&pk.o){var oc=pk.o==='1'?'ch-grn':(pk.o==='2'?'ch-red':'ch-amb'),lab=pk.o==='1'?'1':(pk.o==='2'?'2':'X');chip='<span class="mpl-chip '+oc+'">'+lab+(pk.s?(' '+esc(pk.s)):'')+'</span>';}
-        else{chip='<span class="mpl-chip mpl-no">\u2014</span>';}
+        if(pk&&pk.o){var oc=pk.o==='1'?'ch-grn':(pk.o==='2'?'ch-red':'ch-amb');var txt=pk.s?esc(pk.s):(pk.o==='1'?'Gana local':(pk.o==='2'?'Gana visit.':'Empate'));chip='<span class="mpl-chip '+oc+'">'+txt+'</span>';}
+        else{chip='<span class="mpl-chip mpl-no">Sin pick</span>';}
         if(ro&&pk&&pk.o){mark=pk.o===ro?'<span class="mpl-ok">\u2713</span>':'<span class="mpl-x">\u2717</span>';}
         return '<div class="mpl-row'+(me?' me':'')+'"><span class="mpl-pos">'+(e.pos||'')+'\u00b0</span><span class="mpl-nm">'+esc(e.name)+'</span>'+mark+chip+'</div>';
       }).join('');
-      panel.innerHTML='<div class="mp-tot">'+st.length+' participantes \u00b7 en orden del ranking</div><div class="mpl-list">'+rows+'</div>';
+      var leg='<div class="mpl-leg"><span><i class="lg lg-g"></i>Gana local</span><span><i class="lg lg-a"></i>Empate</span><span><i class="lg lg-r"></i>Gana visitante</span></div>';
+      panel.innerHTML='<div class="mp-tot">'+st.length+' marcadores \u00b7 en orden del ranking</div>'+leg+'<div class="mpl-list">'+rows+'</div>';
       panel.setAttribute('data-built','1');
     }
     panel.hidden=false;btn.textContent='\u2715 Ocultar';
