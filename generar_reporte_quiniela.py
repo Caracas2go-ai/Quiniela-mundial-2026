@@ -234,57 +234,136 @@ def parse_horarios(data_dir):
 
 # ── PARSE FIXTURE ─────────────────────────────────────────────────────────────
 
-def parse_fixture(data_dir):
-    """
-    Fixture label convention: each group has 6 matches.
-    - First row per group (col B = group letter): J1 match 0 (no label)
-    - Label '1X': J1 match 1
-    - Label '2X': J2 match 0
-    - Label '3X': J2 match 1
-    - Label '4X': J3 match 0
-    - Last unlabeled row per group: J3 match 1
-    We parse all 6 rows per group and map them to correct round + position.
-    """
+def _strip_accents(s):
+    import unicodedata
+    return ''.join(c for c in unicodedata.normalize('NFD', str(s)) if unicodedata.category(c) != 'Mn')
+
+
+def load_group_teams(data_dir):
+    """{group_letter: [team names]} desde la hoja Equipos (B=Nombre, C=Grupo)."""
     admin = os.path.join(data_dir, 'ADMIN.xlsx')
-    rows = read_xlsx_sheet(admin, 'Fixture')
+    try:
+        rows = read_xlsx_sheet(admin, 'Equipos')
+    except Exception:
+        return {}
+    out = {}
+    for _r, cells in rows:
+        nm = (cells.get('B', '') or '').strip()
+        gr = (cells.get('C', '') or '').strip()
+        if nm and nm != 'NombreEquipo' and gr:
+            out.setdefault(gr.upper(), []).append(nm)
+    return out
 
-    # Label digit → (round, match_in_round)
-    LABEL_MAP = {
-        '1': ('J1', 1),
-        '2': ('J2', 0),
-        '3': ('J2', 1),
-        '4': ('J3', 0),
-    }
 
+def resolve_team(abbr, group, gteams):
+    """Resuelve una abreviatura de 3 letras al equipo correcto DENTRO de su grupo.
+    Evita colisiones globales (p.ej. 'Aus' = Australia en D y Austria en J)."""
+    abbr = (abbr or '').strip()
+    if not abbr:
+        return abbr
+    teams = gteams.get((group or '').upper(), [])
+    na = _strip_accents(abbr).lower()
+    cands = [t for t in teams if _strip_accents(t).lower().startswith(na)]
+    if len(cands) == 1:
+        return cands[0]
+    mapped = ABBREV_MAP.get(abbr)
+    if mapped and (not teams or mapped in teams):
+        return mapped
+    if cands:
+        return cands[0]
+    return mapped or abbr
+
+
+# Round-robin estándar de un grupo de 4 (por nº de siembra 1-4): oponente por jornada.
+# J1: 1-2, 3-4 · J2: 1-3, 2-4 · J3: 1-4, 2-3
+_RR_OPP = {
+    'J1': {1: 2, 2: 1, 3: 4, 4: 3},
+    'J2': {1: 3, 3: 1, 2: 4, 4: 2},
+    'J3': {1: 4, 4: 1, 2: 3, 3: 2},
+}
+
+
+def _candidates(abbr, teams):
+    na = _strip_accents(abbr).lower()
+    cands = [t for t in teams if _strip_accents(t).lower().startswith(na)]
+    if not cands:
+        m = ABBREV_MAP.get(abbr)
+        if m and m in teams:
+            cands = [m]
+    return cands
+
+
+def resolve_pair(home_abbr, away_abbr, group, rnd, gteams):
+    """Resuelve local y visitante a la vez. Maneja abreviaturas ambiguas dentro
+    del grupo (p.ej. 'Arg' = Argentina o Argelia en J) usando el round-robin."""
+    home_abbr = (home_abbr or '').strip()
+    away_abbr = (away_abbr or '').strip()
+    teams = gteams.get((group or '').upper(), [])
+    if len(teams) < 4:
+        return (resolve_team(home_abbr, group, gteams),
+                resolve_team(away_abbr, group, gteams))
+    seed = {i + 1: teams[i] for i in range(4)}
+    pos = {teams[i]: i + 1 for i in range(4)}
+    hc = _candidates(home_abbr, teams)
+    ac = _candidates(away_abbr, teams)
+    opp = _RR_OPP.get(rnd, {})
+
+    def pick(cands, other):
+        if len(cands) == 1:
+            return cands[0]
+        if len(other) == 1 and opp:
+            o = opp.get(pos[other[0]])
+            if o and seed[o] in cands:
+                return seed[o]
+        return cands[0] if cands else None
+
+    home = pick(hc, ac)
+    away = pick(ac, hc)
+    if home and away and home == away:
+        amb = hc if len(hc) >= 2 else ac
+        if len(amb) >= 2:
+            s = sorted(amb, key=lambda t: pos[t])
+            home, away = s[0], s[1]
+    if not home:
+        home = resolve_team(home_abbr, group, gteams)
+    if not away:
+        away = resolve_team(away_abbr, group, gteams)
+    return home, away
+
+
+# Label digit → (round, match_in_round)
+_FIX_LABEL_MAP = {'1': ('J1', 1), '2': ('J2', 0), '3': ('J2', 1), '4': ('J3', 0)}
+
+
+def _parse_fixture_block(rows, cols, gteams):
+    """Parsea un bloque de columnas del Fixture. cols = (num, group, home, away, label).
+    Cada grupo tiene 6 partidos: header=J1 m0, '1X'=J1 m1, '2X'=J2 m0, '3X'=J2 m1,
+    '4X'=J3 m0, última fila sin label=J3 m1."""
+    num_c, grp_c, home_c, away_c, lbl_c = cols
     matches = []
     current_group = None
-    group_match_count = 0  # How many labeled+unlabeled data rows seen in this group
+    group_match_count = 0
 
-    for r_idx, cells in rows:
-        a_val = cells.get('A', '').strip()
-        b_val = cells.get('B', '').strip()
+    for _r, cells in rows:
+        a_val = (cells.get(num_c, '') or '').strip()
+        b_val = (cells.get(grp_c, '') or '').strip()
 
         # New group header row
         if len(b_val) == 1 and b_val.upper() in 'ABCDEFGHIJKL':
             current_group = b_val.upper()
             group_match_count = 0
-            # This row itself has the first match (no label)
-            home_abbr = cells.get('C', '').strip()
-            away_abbr = cells.get('F', '').strip()
+            home_abbr = (cells.get(home_c, '') or '').strip()
+            away_abbr = (cells.get(away_c, '') or '').strip()
             if home_abbr and away_abbr:
                 try:
                     match_num = int(float(a_val))
                 except (ValueError, TypeError):
                     match_num = 0
-                home = ABBREV_MAP.get(home_abbr, home_abbr)
-                away = ABBREV_MAP.get(away_abbr, away_abbr)
+                home, away = resolve_pair(home_abbr, away_abbr, current_group, 'J1', gteams)
                 matches.append({
-                    'match_num': match_num,
-                    'group': current_group,
-                    'round': 'J1',
-                    'match_in_round': 0,
-                    'home': home,
-                    'away': away,
+                    'match_num': match_num, 'group': current_group,
+                    'round': 'J1', 'match_in_round': 0,
+                    'home': home, 'away': away,
                 })
                 group_match_count = 1
             continue
@@ -297,49 +376,53 @@ def parse_fixture(data_dir):
         except (ValueError, TypeError):
             continue
 
-        home_abbr = cells.get('C', '').strip()
-        away_abbr = cells.get('F', '').strip()
-        match_label = cells.get('L', '').strip()
+        home_abbr = (cells.get(home_c, '') or '').strip()
+        away_abbr = (cells.get(away_c, '') or '').strip()
+        match_label = (cells.get(lbl_c, '') or '').strip()
 
         if not home_abbr or not away_abbr:
             continue
 
-        home = ABBREV_MAP.get(home_abbr, home_abbr)
-        away = ABBREV_MAP.get(away_abbr, away_abbr)
-
-        # Determine round from label
         if match_label and len(match_label) >= 2:
             lbl_digit = match_label[0]
             grp_char = match_label[1].upper()
             if grp_char in 'ABCDEFGHIJKL':
-                current_group = grp_char  # update group from label
-            if lbl_digit in LABEL_MAP:
-                rnd, pos = LABEL_MAP[lbl_digit]
+                current_group = grp_char
+            if lbl_digit in _FIX_LABEL_MAP:
+                rnd, pos = _FIX_LABEL_MAP[lbl_digit]
+                home, away = resolve_pair(home_abbr, away_abbr, current_group, rnd, gteams)
                 matches.append({
-                    'match_num': match_num,
-                    'group': current_group,
-                    'round': rnd,
-                    'match_in_round': pos,
-                    'home': home,
-                    'away': away,
+                    'match_num': match_num, 'group': current_group,
+                    'round': rnd, 'match_in_round': pos,
+                    'home': home, 'away': away,
                 })
                 group_match_count += 1
                 continue
 
-        # No label — could be J3 match 1 (last unlabeled row per group)
-        # After 5 labeled rows, this is J3 match 1
+        # No label — última fila sin label por grupo = J3 match 1
         if group_match_count >= 4:
+            home, away = resolve_pair(home_abbr, away_abbr, current_group, 'J3', gteams)
             matches.append({
-                'match_num': match_num,
-                'group': current_group,
-                'round': 'J3',
-                'match_in_round': 1,
-                'home': home,
-                'away': away,
+                'match_num': match_num, 'group': current_group,
+                'round': 'J3', 'match_in_round': 1,
+                'home': home, 'away': away,
             })
         group_match_count += 1
 
     return matches
+
+
+def parse_fixture(data_dir):
+    """Lee la hoja Fixture COMPLETA: dos bloques de columnas.
+    Bloque izquierdo (Grupos A-F): num=A, grupo=B, local=C, visita=F, label=L.
+    Bloque derecho  (Grupos G-L): num=M, grupo=N, local=O, visita=R, label=X.
+    """
+    admin = os.path.join(data_dir, 'ADMIN.xlsx')
+    rows = read_xlsx_sheet(admin, 'Fixture')
+    gteams = load_group_teams(data_dir)
+    left = _parse_fixture_block(rows, ('A', 'B', 'C', 'F', 'L'), gteams)
+    right = _parse_fixture_block(rows, ('M', 'N', 'O', 'R', 'X'), gteams)
+    return left + right
 
 
 # ── BUILD DATED MATCHES ───────────────────────────────────────────────────────

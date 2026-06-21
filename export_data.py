@@ -37,26 +37,28 @@ def _mult(factor, n):
 
 
 def _read_results(dd):
-    """Resultados reales por nº de partido desde la hoja Fixture (A=nº, D=GL, E=GV)."""
+    """Resultados reales por nº de partido desde la hoja Fixture, AMBOS bloques.
+    Bloque A-F: num=A, GL=D, GV=E.  Bloque G-L: num=M, GL=P, GV=Q."""
     p = os.path.join(dd, 'ADMIN.xlsx')
     try:
         rows = g.read_xlsx_sheet(p, 'Fixture')
     except Exception:
         return {}
     out = {}
-    for r_idx, cells in rows:
-        a = (cells.get('A', '') or '').strip()
-        try:
-            num = int(float(a))
-        except (ValueError, TypeError):
-            continue
-        d = (cells.get('D', '') or '').strip(); e = (cells.get('E', '') or '').strip()
-        if d in ('', '-') or e in ('', '-'):
-            continue
-        try:
-            out[num] = (int(float(d)), int(float(e)))
-        except (ValueError, TypeError):
-            pass
+    for num_c, gl_c, gv_c in (('A', 'D', 'E'), ('M', 'P', 'Q')):
+        for r_idx, cells in rows:
+            a = (cells.get(num_c, '') or '').strip()
+            try:
+                num = int(float(a))
+            except (ValueError, TypeError):
+                continue
+            d = (cells.get(gl_c, '') or '').strip(); e = (cells.get(gv_c, '') or '').strip()
+            if d in ('', '-') or e in ('', '-'):
+                continue
+            try:
+                out[num] = (int(float(d)), int(float(e)))
+            except (ValueError, TypeError):
+                pass
     return out
 
 
